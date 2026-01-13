@@ -105,6 +105,51 @@ nav a:hover {
     color: #e74c3c;
 }
 
+/* Financing Banner */
+.financing-banner {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 999;
+}
+
+.financing-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.financing-option {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: white;
+    font-size: 1.2rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.financing-option i {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.financing-option strong {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
 /* Hero Section */
 .hero {
     background: 
@@ -137,6 +182,7 @@ nav a:hover {
     margin: 0 auto;
 }
 
+.hero h1,
 .hero h2 {
     font-size: 3.8rem;
     margin-bottom: 1.5rem;
@@ -811,6 +857,11 @@ footer p {
         text-align: center;
     }
 
+    .hero h1,
+    .hero h2 {
+        font-size: 2.2rem;
+    }
+
     .gallery h2,
     .services h2,
     .about-text h2,
@@ -943,15 +994,30 @@ footer p {
         height: 55px;
         font-size: 1.3rem;
     }
+
+    .financing-options {
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .financing-option {
+        font-size: 1rem;
+    }
+
+    .financing-option i {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
+    .hero h1,
     .hero h2 {
         font-size: 1.6rem;
     }
     
     .hero p {
         font-size: 0.9rem;
+        letter-spacing: 1px;
     }
     
     .stats-grid {
@@ -960,6 +1026,15 @@ footer p {
     
     .cta-banner h2 {
         font-size: 1.6rem;
+    }
+
+    .financing-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .financing-option {
+        font-size: 0.95rem;
     }
     
     .cta-banner p {

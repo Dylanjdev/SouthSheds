@@ -71,45 +71,87 @@ if (statsSection) {
     statsObserver.observe(statsSection);
 }
 
-// Contact form handling
+// Contact form handling with EmailJS
 const contactForm = document.getElementById('contactForm');
 
 contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Get form values
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const message = document.getElementById('message').value;
+    const submitButton = contactForm.querySelector('.submit-button');
+    const originalButtonText = submitButton.textContent;
     
-    // Create success message
-    let successMessage = document.querySelector('.success-message');
-    if (!successMessage) {
-        successMessage = document.createElement('div');
-        successMessage.className = 'success-message';
-        contactForm.parentNode.appendChild(successMessage);
-    }
+    // Disable button and show loading state
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
     
-    // Display success message
-    successMessage.textContent = 'Thank you for your message! We will get back to you soon.';
-    successMessage.classList.add('show');
-    
-    // Log form data (in a real application, you would send this to a server)
-    console.log('Form submitted:', {
-        name,
-        email,
-        phone,
-        message
-    });
-    
-    // Reset form
-    contactForm.reset();
-    
-    // Hide success message after 5 seconds
-    setTimeout(() => {
-        successMessage.classList.remove('show');
-    }, 5000);
+    // Send email using EmailJS
+    emailjs.sendForm('service_ck0s8rc', 'template_7pn6qkq', this)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            
+            // Create/show success message
+            let successMessage = document.querySelector('.success-message');
+            if (!successMessage) {
+                successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                contactForm.parentNode.appendChild(successMessage);
+            }
+            
+            successMessage.textContent = 'Thank you for your message! We will get back to you soon.';
+            successMessage.style.color = '#155724';
+            successMessage.style.padding = '1.5rem';
+            successMessage.style.marginTop = '1.5rem';
+            successMessage.style.backgroundColor = '#d4edda';
+            successMessage.style.border = '2px solid #28a745';
+            successMessage.style.borderRadius = '8px';
+            successMessage.style.fontSize = '1.1rem';
+            successMessage.style.fontWeight = '600';
+            successMessage.style.textAlign = 'center';
+            successMessage.classList.add('show');
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+                setTimeout(() => successMessage.remove(), 300);
+            }, 5000);
+            
+        }, function(error) {
+            console.log('FAILED...', error);
+            
+            // Show error message
+            let errorMessage = document.querySelector('.error-message');
+            if (!errorMessage) {
+                errorMessage = document.createElement('div');
+                errorMessage.className = 'error-message';
+                contactForm.parentNode.appendChild(errorMessage);
+            }
+            
+            errorMessage.textContent = 'Oops! Something went wrong. Please try calling us at 276-275-0708.';
+            errorMessage.style.color = '#721c24';
+            errorMessage.style.padding = '1rem';
+            errorMessage.style.marginTop = '1rem';
+            errorMessage.style.backgroundColor = '#f8d7da';
+            errorMessage.style.border = '1px solid #f5c6cb';
+            errorMessage.style.borderRadius = '4px';
+            errorMessage.classList.add('show');
+            
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+            
+            // Hide error message after 5 seconds
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+                setTimeout(() => errorMessage.remove(), 300);
+            }, 5000);
+        });
 });
 
 // Add active state to navigation on scroll
